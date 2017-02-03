@@ -1,0 +1,5 @@
+inaug_temo <- read.csv(path = "..\data\", inauglist)
+inaug <- inaug[-nrow(inaug),]
+inaug <- inaug[-nrow(inaug),]
+main.page <- read_html(x = "http://www.presidency.ucsb.edu/inaugurals.php")
+inaug=f.speechlinks(main.page)
