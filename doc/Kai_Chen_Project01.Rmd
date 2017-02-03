@@ -692,6 +692,52 @@ i. Nominee speech(Remove those that didn't do this speech)
 When those presidents were nominees, the only topic they speak a lot was commonword, which is not a real topic. This result can illustrate two things. First, the language used by announancement from party platform is more formal; Second, before being a president, a nominee actually would talk about almost everything in the speech, like economics and legislation, but once he became the president, he has to think about his everything. And it's president's duty to protect his citizens and their rights, no wonder "freedom" and "world" attract so much attention. 
 
 
+ii. Farewell speech
+
+```{r,, fig.height=3, fig.width=3}
+
+  topic.pres <- matrix(NA, nrow = length(Years.compare), ncol = 12)
+  colnames(topic.pres) <- names(topicProbabilities)
+  r.name <- vector(length = length(Years.compare))
+ for (i in 1:length(Years.compare)){
+      ## Find the topics of the inaugspeech of presidents
+
+      KEY1 <- findpresident(Years.compare[i]-4)
+      # We choose those that will be presidents
+      corpuss.temp <- tbl_df(corpuss.s.topic) %>%
+             filter(File == (KEY1$File), type=="farewell") %>%
+             select(25:36)
+      corpuss.df1 <- as.data.frame(corpuss.temp)
+      corpuss.df1m <- colMeans(corpuss.df1)
+
+      ## Find that platform text
+
+      corpuss.p.temp <-  tbl_df(corpuss.p.topic) %>%
+             filter(Year == Years.compare[i], Party == KEY1$Party) %>%
+             select(18:29)
+      corpuss.df2 <- as.data.frame(corpuss.p.temp)
+      corpuss.df2m <- colMeans(corpuss.df2)
+      topic.pres[i,] <- corpuss.df2m - corpuss.df1m # Party - President
+
+      r.name[i] <- paste0(KEY1$President,Years.compare[i] )
+  }
+  rownames(topic.pres) <- r.name
+  KEY3 <- is.na(topic.pres[,"World"])
+  topic.pres <- topic.pres[!KEY3,]
+  length(topic.pres)
+    heatmap.2(topic.pres, 
+            scale = "none", 
+            col = bluered(100), key=T, keysize = 2,
+            cexRow = 1, cexCol = 0.6,
+            trace = "none", density.info = "density")
+
+    heatmap.2(topic.pres,
+            scale = "colum", key=T,keysize = 2,
+            col = bluered(100),
+            cexRow = 1, cexCol = 0.6, 
+            trace = "none", density.info = "density")
+```
+This figure looks like the plot from inauguration speech, indicating the position will mainly decide the topics of the speech. The difference between 
 
 
 
