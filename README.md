@@ -3,7 +3,6 @@
 
 ![image](figs/title.jpg)
 
-### [Project Description](doc/)
 
 
 Term: Spring 2017
